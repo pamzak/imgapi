@@ -105,6 +105,14 @@ const startserver = () => {
     }
   });
 
+  app.get("/news", async (req, res) => {
+
+    let users = await imgapi.find({news:true});
+    // res.render('user',{users:users,title:"همه کاربران"});
+    res.status(200).json({ data: users });
+  });
+
+
   app.get("/", async (req, res) => {
 
     let users = await imgapi.find({});
