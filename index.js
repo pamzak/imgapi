@@ -66,6 +66,8 @@ const startserver = () => {
     desc: { type: String },
     news: { type: Boolean, default: false },
     vid: { type: String },
+    img: { type: String },
+
   });
   const imgapi = mongoose.model("imgapi", rtaschema, "imgapi");
 
