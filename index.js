@@ -62,7 +62,7 @@ const startserver = () => {
 
   const rtaschema = new mongoose.Schema({
     title: { type: String },
-
+    catagory: { type: String },
     desc: { type: String },
     news: { type: Boolean, default: false },
     vid: { type: String },
