@@ -111,7 +111,7 @@ const startserver = () => {
 
     let users = await imgapi.find({news:true});
     // res.render('user',{users:users,title:"همه کاربران"});
-    res.status(200).json({ data: users });
+    res.status(200).json({ users });
   });
 
 
@@ -119,7 +119,7 @@ const startserver = () => {
 
     let users = await imgapi.find({news:false});
     // res.render('user',{users:users,title:"همه کاربران"});
-    res.status(200).json({ data: users });
+    res.status(200).json({users });
   });
 
   app.get("/:id", async (req, res) => {
