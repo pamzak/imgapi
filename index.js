@@ -109,26 +109,21 @@ const startserver = () => {
   app.get("/news", async (req, res) => {
     let users = await imgapi.find({ news: true });
     // res.render('user',{users:users,title:"همه کاربران"});
-    res
-      .status(200)
-      .json({  
-        data:users
-      });
+    res.status(200).json({
+      data: users,
+    });
   });
 
   app.get("/", async (req, res) => {
     let users = await imgapi.find({ news: false });
     // res.render('user',{users:users,title:"همه کاربران"});
-    res
-      .status(200)
-      .json({
-    data:users
-      });
+    res.status(200).json({
+      data: users,
+    });
   });
 
   app.get("/:catagory", async (req, res) => {
-    
-    let user = await imgapi.find(req.params.catagory);
+    let user = await imgapi.find({ catagory: req.params.catagory });
     res.json({ data: user });
   });
 
