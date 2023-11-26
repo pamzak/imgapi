@@ -3,7 +3,7 @@ const app = express();
 const port = 8000;
 const mongoose = require("mongoose");
 const errorHandler = require("./medalwear");
-const core=require('core-js');
+const core = require("core-js");
 const multer = require("multer");
 
 const firebase = require("firebase/app");
@@ -31,23 +31,23 @@ const upload = multer({
 });
 
 const connectDB = async () => {
-  await mongoose
-    .connect("mongodb+srv://App_user:DLFypDJWTx8fEI6F@cluster0.c7mtudb.mongodb.net/?retryWrites=true&w=majority")}
-    // , {
-    //   useNewUrlParser: true,
-    //   useUnifiedTopology: true,
-    //   serverSelectionTimeoutMS: 5000,
-    //   autoIndex: false, // Don't build indexes
-    //   maxPoolSize: 10, // Maintain up to 10 socket connections
-    //   serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
-    //   family: 4, // Use IPv4, skip trying IPv6
-    
-
+  await mongoose.connect(
+    "mongodb+srv://App_user:DLFypDJWTx8fEI6F@cluster0.c7mtudb.mongodb.net/?retryWrites=true&w=majority"
+  );
+};
+// , {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   serverSelectionTimeoutMS: 5000,
+//   autoIndex: false, // Don't build indexes
+//   maxPoolSize: 10, // Maintain up to 10 socket connections
+//   serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
+//   family: 4, // Use IPv4, skip trying IPv6
 
 const startserver = () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.static("public"));
-  
+
   // app.use((req, res, next) => {
   //   res.header("access-control-allow-origin", "*");
   //   res.header(
@@ -58,7 +58,6 @@ const startserver = () => {
   // });
   app.use(express.json());
   app.use(errorHandler);
-  
 
   const rtaschema = new mongoose.Schema({
     title: { type: String },
@@ -67,7 +66,6 @@ const startserver = () => {
     news: { type: Boolean, default: false },
     vid: { type: String },
     img: { type: String },
-
   });
   const imgapi = mongoose.model("imgapi", rtaschema, "imgapi");
 
@@ -80,8 +78,8 @@ const startserver = () => {
         uploadBytes(storageref, req.file.buffer).then((snapshot) => {
           getDownloadURL(storageref).then(async (url) => {
             const newuser = await imgapi.create({
-              title:req.body.title,
-              desc:req.body.desc,
+              title: req.body.title,
+              desc: req.body.desc,
               vid: url,
               news: false,
             });
@@ -92,10 +90,11 @@ const startserver = () => {
         });
       } else {
         const { title, desc } = req.body;
-        const newuser = await imgapi.create({ 
-          title:req.body.title,
-              desc:req.body.desc, 
-          news: true });
+        const newuser = await imgapi.create({
+          title: req.body.title,
+          desc: req.body.desc,
+          news: true,
+        });
         if (newuser) {
           res.status(200).json(newuser);
         }
@@ -108,23 +107,38 @@ const startserver = () => {
   });
 
   app.get("/news", async (req, res) => {
-
-    let users = await imgapi.find({news:true});
+    let users = await imgapi.find({ news: true });
     // res.render('user',{users:users,title:"همه کاربران"});
-    res.status(200).json({ users });
+    res
+      .status(200)
+      .json({
+        catagory: users.catagory,
+        desc: users.desc,
+        news: users.news,
+        vid: users.vid,
+        img: users.img,
+      });
   });
 
-
   app.get("/", async (req, res) => {
-
-    let users = await imgapi.find({news:false});
+    let users = await imgapi.find({ news: false });
     // res.render('user',{users:users,title:"همه کاربران"});
-    res.status(200).json({users });
+    res
+      .status(200)
+      .json({
+        title: users.title,
+        catagory: users.catagory,
+        desc: users.desc,
+        news: users.news,
+        vid: users.vid,
+        img: users.img,
+      });
   });
 
   app.get("/:id", async (req, res) => {
     let user = await imgapi.findById(req.params.id);
-    res.json({ data: user });  });
+    res.json({ data: user });
+  });
 
   //
   //UPDATE USER
@@ -162,7 +176,6 @@ const startserver = () => {
 
 try {
   connectDB().then(() => {
-  
     startserver();
   });
 } catch (er) {
