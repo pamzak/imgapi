@@ -111,12 +111,8 @@ const startserver = () => {
     // res.render('user',{users:users,title:"همه کاربران"});
     res
       .status(200)
-      .json({
-        catagory: users.catagory,
-        desc: users.desc,
-        news: users.news,
-        vid: users.vid,
-        img: users.img,
+      .json({  
+        data:users
       });
   });
 
@@ -126,12 +122,7 @@ const startserver = () => {
     res
       .status(200)
       .json({
-        title: users.title,
-        catagory: users.catagory,
-        desc: users.desc,
-        news: users.news,
-        vid: users.vid,
-        img: users.img,
+    data:users
       });
   });
 
