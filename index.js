@@ -126,8 +126,9 @@ const startserver = () => {
       });
   });
 
-  app.get("/:id", async (req, res) => {
-    let user = await imgapi.findById(req.params.id);
+  app.get("/:catagory", async (req, res) => {
+    
+    let user = await imgapi.find(req.params.catagory);
     res.json({ data: user });
   });
 
